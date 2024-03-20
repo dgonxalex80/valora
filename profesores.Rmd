@@ -185,3 +185,41 @@ print(plot)
 
 ```
 
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+t1=table(profes$escalares.fin)
+t1
+```
+
+* Salen los incompletos?
+* se deben ordenar - INSUFICIENE, DEFICIENE, BUENO, MUY BUENO, DESTACADO
+
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+t2=table(profes$estadofin.det)
+t2
+
+```
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+t12=table(profes$escalares.fin, profes$estadofin.det)
+t12
+
+```
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```
+
+<br/><br/>
+
