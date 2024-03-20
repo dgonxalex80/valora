@@ -1,0 +1,187 @@
+---
+title: <span style="color:#034a94">**Evaluación de profesores 2022**</span> 
+subtitle: " "
+author: " "
+date: " "
+output:
+  html_document:
+    toc: no
+    toc_depth: 2
+    toc_float: yes
+    code_folding: hide
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library(readxl)
+profesores <- read_excel("data/Valoración desempeño 2022 Evaluación Profesores.xlsx")
+```
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+nombre =c("Estado auto",  "Estado evalución superior", "Estado fuente estudiantes",  "Total identidad javeriana auto", "Total convivencia y trabajo auto",  "Total adaptabilidad y pluralismo auto", "Total compomiso con la gestion auto",  "Total disciplinar y academica auto","Total pedagogica auto", "Total investigacion innovacion y desarrollo auto","Total servicio y transferencia del conocimiento auto" , "Total auto" ,"Total identidad javeriana superior" , "Total convivencia y trabajo superior","Total adaptabilidad y pluralismo superior", "Total compomiso con la gestion superior" ,"Total disciplinar y academica superior", "Total pedagogica superior" , "Total investigacion innovacion y desarrollo superior", "Total servicio y transferencia del conocimiento superior","Total superior", "Pedagogica fuente estudiantes", "Investigacion fuente estudiantes" , "Institucional fuente estudiantes", "Disciplinar fuente estudiantes", "Consolidado fuente estudiantes","consolidadofuenteestudiantes_portal",  "Estado general valoracion dimensiones", "Total identidad javeriana","Total convivencia y trabajo" , "Total adaptabilidad y pluralismo", "Total compomiso con la gestion",  "Total disciplinar y academica",  "Total pedagogica", "Total investigacion innovacion y desarrollo" , "Total servicio y transferencia del conocimiento",  "Consolidado dimensiones",    "Consolidado dimensiones 50%", "Escala de resultado dimensiones", "Valoracion de objetivos superior",  "Estado valoracion de objetivos", "Numero de objetivos",  "Total peso de objetivos","Resultado porcentaje de objetivos 50%","Escala objetivos",  "Consolidado desempeño",  "Escala de resultado final","Estado final", "Estado final detallado")
+
+nombres.cortos = c("est.aut","est.aut.sup","est.fue.est",
+"tot.ide1","tot.con1","tot.ada1","tot.com1",
+"tot.dis1","tot.ped1","tot.inv1","tot.ser1",
+"total1","tot.ide2","tot.con2","tot.ada2",
+"tot.com2","tot.dis2","tot.ped2","tot.inv2",
+"tot.ser2","total2","ped3","inv3","ins.estins3","dis3",
+"con3","con3.por","est.gen.dims","tot.ide",
+"tot.con","tot.ada","tot.com","tot.dis",
+"tot.ped","tot.inv","tot.ser","con.dim",
+"con.dim50","escala",
+"val.obj2","est.obj",
+"num.obj","tot.pes.obj",
+"con.obj","res.obj50",
+"esc.obj","con.des",
+"esc.res.fin","est.fin",
+"est.fin.det")
+
+rangos=c(0,65,76,86,86,95,100)
+clases =c("deficiente","insuficiente", "bueno", "muy bueno", "destacado") 
+names(profesores) = nombres.cortos
+
+```
+
+<br/><br/>
+
+# Datos faltantes
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+profes = profesores[, c(12,21,26,47,48,49,50)]
+library(dplyr)
+faltantes <- colSums(is.na(profes)) %>%
+                 as.data.frame() 
+
+faltantes
+```
+<br/><br/>
+
+```{r}
+# install.packages("VIM")
+profes <- na.omit(profes)  # elimina todos los valores con  NA
+#VIM::aggr(profes, cex.axis = 0.4, cex.lab= 0.8)
+cat("dimensión sin datos faltantes : ", dim(profes))
+```
+
+
+
+```{r}
+names(profes) =c("total.auto", "total.sup", "consolida.est", "consolidad.des", "escalares.fin", "estado.fin", "estadofin.det" )
+```
+
+<br/><br/>
+
+# **PROFESORES**
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+boxplot(profes[, c(1,2,3)], ylim=c(65,100))
+```
+
+<br/><br/>
+
+## **Total auto evaluación**
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+h.auto=hist(profes$total.auto, las=1, main="Total evaluación - Profesores", xlab = "valoración", ylab = "frecuencia",
+            xlim = c(0,100))
+abline(v=rangos)
+
+```
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+h.sup=hist(profes$total.sup, las=1, main="Total evaluación - Superior", xlab = "valoración", ylab = "frecuencia",
+            xlim = c(0,100))
+abline(v=rangos)
+
+```
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+h.est=hist(profes$consolida.est, las=1, main="Total evaluación - Estudiantes", xlab = "valoración", ylab = "frecuencia",
+            xlim = c(0,100))
+abline(v=rangos)
+
+```
+
+
+<br/><br/>
+
+# Relación entre evaluaciones por fuentes
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(GGally)
+library(ggplot2)
+
+# Crear el gráfico con ggpairs
+plot <- ggpairs(profes[,1:3], title="Valoración - fuentes")
+
+# Ajustar la escala de todos los gráficos en el eje x
+plot <- plot + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlim(0, 100)
+
+# Mostrar el gráfico
+print(plot)
+
+
+```
+
+<br/><br/>
+
+# Identidad Javeriana
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(GGally)
+library(ggplot2)
+
+# Crear el gráfico con ggpairs
+profes.ide =profesores[,c(4,13,29)]
+plot <- ggpairs(profes.ide, title="Valoración - fuentes")
+
+# Ajustar la escala de todos los gráficos en el eje x
+plot <- plot + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlim(0, 100)
+
+# Mostrar el gráfico
+print(plot)
+
+
+```
+
+<br/><br/>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(plotly)
+
+# Crear un data frame en formato largo para plotly
+profes_long <- reshape2::melt(profes[, c(1, 2, 3)])
+
+# Crear el boxplot con plotly
+plot_ly(data = profes_long, x = ~value, y = ~variable, color = ~variable, type = "box") %>%
+  layout(title = "Valoración - fuentes", yaxis = list(title = "", autorange = "reversed"), xaxis = list(range = c(65, 100)))
+
+```
+
+<br/><br/>
+
+# Pedagógica
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(GGally)
+library(ggplot2)
+
+# Crear el gráfico con ggpairs
+plot <- ggpairs(profes[,1:3], title="Valoración - fuentes")
+
+# Ajustar la escala de todos los gráficos en el eje x
+plot <- plot + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + xlim(0, 100)
+
+# Mostrar el gráfico
+print(plot)
+
+
+```
+
