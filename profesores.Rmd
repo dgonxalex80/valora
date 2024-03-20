@@ -5,7 +5,7 @@ author: " "
 date: " "
 output:
   html_document:
-    toc: no
+    toc: yes
     toc_depth: 2
     toc_float: yes
     code_folding: hide
@@ -86,24 +86,15 @@ boxplot(profes[, c(1,2,3)], ylim=c(65,100))
 ## **Total auto evaluación**
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
+par(mfrow = c(3, 1))
 h.auto=hist(profes$total.auto, las=1, main="Total evaluación - Profesores", xlab = "valoración", ylab = "frecuencia",
             xlim = c(0,100))
 abline(v=rangos)
 
-```
-
-<br/><br/>
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
 h.sup=hist(profes$total.sup, las=1, main="Total evaluación - Superior", xlab = "valoración", ylab = "frecuencia",
             xlim = c(0,100))
 abline(v=rangos)
 
-```
-
-<br/><br/>
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
 h.est=hist(profes$consolida.est, las=1, main="Total evaluación - Estudiantes", xlab = "valoración", ylab = "frecuencia",
             xlim = c(0,100))
 abline(v=rangos)
@@ -112,6 +103,7 @@ abline(v=rangos)
 
 
 <br/><br/>
+
 
 # Relación entre evaluaciones por fuentes
 
