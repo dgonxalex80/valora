@@ -48,7 +48,7 @@ names(profesores) = nombres.cortos
 
 <br/><br/>
 
-# Datos faltantes
+Datos faltantes
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 profes = profesores[, c(12,21,26,47,48,49,50)]
@@ -105,7 +105,7 @@ abline(v=rangos)
 <br/><br/>
 
 
-# Relación entre evaluaciones por fuentes
+## Relación entre evaluaciones por fuentes
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(GGally)
@@ -125,7 +125,7 @@ print(plot)
 
 <br/><br/>
 
-# Identidad Javeriana
+### Identidad Javeriana
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(GGally)
 library(ggplot2)
@@ -159,7 +159,7 @@ plot_ly(data = profes_long, x = ~value, y = ~variable, color = ~variable, type =
 
 <br/><br/>
 
-# Pedagógica
+### **Pedagógica**
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(GGally)

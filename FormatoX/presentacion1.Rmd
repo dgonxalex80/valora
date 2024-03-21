@@ -1,0 +1,139 @@
+---
+title: "**Titulo presentación**"
+subtitle: "**subtitulo presentación**"  
+author: "dgonzalez80"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: [themer1.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+c1="#B9D1EA"
+C2="#618ABB"
+C3="#00235e"
+C4="#FDBA21"
+
+C5="#134074"
+C6="#8DA9C4"
+C7="#EEF4ED"
+#B9D1EA
+
+library(readxl)
+profesores <- read_excel("Valoración desempeño 2022 Evaluación Profesores.xlsx")
+```
+
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = C3, #"#1381B0", # texto primario
+  secondary_color = C4, # "#FF961C", # texto secundario
+  inverse_header_color = C7     # "#FFFFFF" # texto inverso
+)
+```
+
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+nombre =c("Estado auto",  "Estado evalución superior", "Estado fuente estudiantes",  "Total identidad javeriana auto", "Total convivencia y trabajo auto",  "Total adaptabilidad y pluralismo auto", "Total compomiso con la gestion auto",  "Total disciplinar y academica auto","Total pedagogica auto", "Total investigacion innovacion y desarrollo auto","Total servicio y transferencia del conocimiento auto" , "Total auto" ,"Total identidad javeriana superior" , "Total convivencia y trabajo superior","Total adaptabilidad y pluralismo superior", "Total compomiso con la gestion superior" ,"Total disciplinar y academica superior", "Total pedagogica superior" , "Total investigacion innovacion y desarrollo superior", "Total servicio y transferencia del conocimiento superior","Total superior", "Pedagogica fuente estudiantes", "Investigacion fuente estudiantes" , "Institucional fuente estudiantes", "Disciplinar fuente estudiantes", "Consolidado fuente estudiantes","consolidadofuenteestudiantes_portal",  "Estado general valoracion dimensiones", "Total identidad javeriana","Total convivencia y trabajo" , "Total adaptabilidad y pluralismo", "Total compomiso con la gestion",  "Total disciplinar y academica",  "Total pedagogica", "Total investigacion innovacion y desarrollo" , "Total servicio y transferencia del conocimiento",  "Consolidado dimensiones",    "Consolidado dimensiones 50%", "Escala de resultado dimensiones", "Valoracion de objetivos superior",  "Estado valoracion de objetivos", "Numero de objetivos",  "Total peso de objetivos","Resultado porcentaje de objetivos 50%","Escala objetivos",  "Consolidado desempeño",  "Escala de resultado final","Estado final", "Estado final detallado")
+
+nombres.cortos = c("est.aut","est.aut.sup","est.fue.est",
+"tot.ide1","tot.con1","tot.ada1","tot.com1",
+"tot.dis1","tot.ped1","tot.inv1","tot.ser1",
+"total1","tot.ide2","tot.con2","tot.ada2",
+"tot.com2","tot.dis2","tot.ped2","tot.inv2",
+"tot.ser2","total2","ped3","inv3","ins.estins3","dis3",
+"con3","con3.por","est.gen.dims","tot.ide",
+"tot.con","tot.ada","tot.com","tot.dis",
+"tot.ped","tot.inv","tot.ser","con.dim",
+"con.dim50","escala",
+"val.obj2","est.obj",
+"num.obj","tot.pes.obj",
+"con.obj","res.obj50",
+"esc.obj","con.des",
+"esc.res.fin","est.fin",
+"est.fin.det")
+
+rangos=c(0,65,76,86,86,95,100)
+clases =c("deficiente","insuficiente", "bueno", "muy bueno", "destacado") 
+names(profesores) = nombres.cortos
+
+profes = profesores[, c(12,21,26,47,48,49,50)]
+library(dplyr)
+faltantes <- colSums(is.na(profes)) %>%
+                 as.data.frame() 
+
+
+```
+
+
+# **PROFESORES**
+
+## **Comparación evaluación 2022**
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+boxplot(profes[, c(1,2,3)], ylim=c(65,100))
+```
+Fuente: Valora
+
+---
+
+# Profesoes 2022
+```{r}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Convertir los datos a formato largo (long format)
+profes_long <- tidyr::gather(profes, key = "variable", value = "value", 1:3)
+
+# Crear el gráfico de caja con colores suaves
+ggplot(profes_long, aes(x = variable, y = value, fill = variable)) +
+  geom_boxplot(color = "gray30", fill = "#C7E9C0") +
+  ylim(65, 100) +
+  scale_fill_manual(values = c("#FFEDA0", "#FEB24C", "#F03B20")) +  # Colores suaves
+  theme_minimal()
+
+```
+
+---
+
+
+```{r}
+# Cambiar las etiquetas de las categorías
+profes_long$variable <- factor(profes_long$variable, levels = c("con", "total1", "total2"),
+                                labels = c("estudiantes", "autoevaluación", "superior"))
+
+# Crear el gráfico de caja con las etiquetas cambiadas
+ggplot(profes_long, aes(x = variable, y = value, fill = variable)) +
+  geom_boxplot(color = "gray30", fill = "#C7E9C0") +
+  ylim(65, 100) +
+  scale_fill_manual(values = c("#FFEDA0", "#FEB24C", "#F03B20")) +  # Colores suaves
+  theme_minimal()
+
+```
+
+
+---
+class: inverse center middle
+
+# Gracias
+
+
